@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>André Wu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="André Wu — IT Management for Business student at Loughborough University. Finance tools in Python, websites for local businesses, and the work behind them.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+/* Layout: a left-aligned résumé grid. Section names sit in a narrow left rail; content reads in a ~65ch right column. One bold move: the name in the hero. */
+:root {
+  --paper: #fbfcfd;
+  --ink: #0f1a2b;
+  --ink-2: #44506a;
+  --ink-3: #6f7a90;
+  --rule: #dfe4ec;
+  --tint: #f1f4f9;
+  --accent: #1f47b8;      /* Porto azulejo cobalt */
+  --accent-ink: #ffffff;
+  --live: #1f8a5b;
+  --pending: #b7791f;
+
+  --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+
+  --step--1: 0.875rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.6rem;
+  --step-3: 2.1rem;
+  --name: clamp(3.4rem, 11vw, 8.5rem);
+  --wrap: 1120px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0d1420; --ink: #e8edf5; --ink-2: #b3bdcf; --ink-3: #8691a6;
+    --rule: #243045; --tint: #151f30; --accent: #7f9cf5; --accent-ink: #0d1420;
+    --live: #4cc38a; --pending: #e0a548; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0d1420; --ink: #e8edf5; --ink-2: #b3bdcf; --ink-3: #8691a6;
+  --rule: #243045; --tint: #151f30; --accent: #7f9cf5; --accent-ink: #0d1420;
+  --live: #4cc38a; --pending: #e0a548; color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+
+/* Top bar */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; }
+.bar .mark { font-weight: 800; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; font-size: 1.05rem; }
+.bar nav { display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none; }
+.bar nav::-webkit-scrollbar { display: none; }
+.bar nav a { color: var(--ink-2); text-decoration: none; font-size: var(--step--1); font-weight: 500; white-space: nowrap; }
+.bar nav a:hover { color: var(--ink); }
+
+/* Hero */
+.hero { padding-block: clamp(48px, 9vw, 112px) clamp(40px, 6vw, 72px); border-bottom: 1px solid var(--rule); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(24px, 5vw, 64px); align-items: end; }
+.name {
+  font-size: var(--name);
+  font-weight: 900;
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+  margin-left: -0.04em;
+}
+.name span { display: block; }
+.name .last { color: var(--accent); }
+.lede {
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: 34em;
+  margin-top: clamp(24px, 4vw, 40px);
+}
+.lede strong { color: var(--ink); font-weight: 500; }
+.status {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 22px; font-size: var(--step--1); font-weight: 600; color: var(--ink);
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 4px color-mix(in srgb, var(--live) 18%, transparent); flex: none; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 18px; border-radius: 999px;
+  font-weight: 600; font-size: var(--step--1); text-decoration: none;
+  border: 1px solid var(--rule); color: var(--ink); background: transparent;
+  cursor: pointer; font-family: inherit;
+}
+.btn:hover { border-color: var(--ink-3); text-decoration: none; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn svg { width: 16px; height: 16px; flex: none; }
+
+.portrait {
+  width: clamp(150px, 20vw, 240px);
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 10px, color-mix(in srgb, var(--accent) 7%, transparent) 10px 11px),
+    var(--tint);
+  border: 1px solid var(--rule);
+  display: grid; place-items: center; text-align: center;
+  color: var(--ink-3); font-size: var(--step--1); padding: 16px;
+  overflow: hidden;
+}
+.portrait img { width: 100%; height: 100%; object-fit: cover; }
+
+.langs { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: clamp(36px, 6vw, 56px); padding-top: 20px; border-top: 1px solid var(--rule); }
+.lang { display: flex; align-items: baseline; gap: 8px; }
+.lang b { font-size: var(--step-1); font-weight: 700; letter-spacing: -0.01em; }
+.lang small { color: var(--ink-3); font-size: var(--step--1); }
+
+/* Sections */
+section.block { padding-block: clamp(56px, 8vw, 96px); border-bottom: 1px solid var(--rule); scroll-margin-top: 56px; }
+.block-grid { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px clamp(24px, 5vw, 64px); }
+.block-head h2 { font-size: var(--step-1); font-weight: 700; letter-spacing: -0.01em; position: sticky; top: 84px; }
+.block-head p { color: var(--ink-3); font-size: var(--step--1); margin-top: 8px; max-width: 18em; position: sticky; top: 118px; }
+.stack { display: grid; gap: clamp(48px, 7vw, 80px); min-width: 0; }
+
+/* Projects */
+.project { display: grid; gap: 18px; min-width: 0; }
+.project-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; }
+.project h3 { font-size: var(--step-3); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+.meta { color: var(--ink-3); font-size: var(--step--1); }
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.8rem; font-weight: 600; color: var(--ink-2);
+  padding: 3px 10px; border-radius: 999px; border: 1px solid var(--rule); white-space: nowrap;
+}
+.tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); }
+.tag.live::before { background: var(--live); }
+.tag.wip::before { background: var(--pending); }
+.desc { font-family: var(--serif); font-size: 1.15rem; line-height: 1.6; color: var(--ink-2); max-width: 36em; }
+.desc strong { color: var(--ink); font-weight: 500; }
+.figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.fig { padding: 16px 16px 16px 0; min-width: 0; }
+.fig + .fig { padding-left: 16px; border-left: 1px solid var(--rule); }
+.fig b { display: block; font-size: var(--step-2); font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.fig span { display: block; color: var(--ink-3); font-size: var(--step--1); line-height: 1.4; margin-top: 4px; }
+.shot { border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: #fff; }
+.shot img { width: 100%; height: auto; }
+.shot figcaption, figure.shot + .cap { font-size: var(--step--1); color: var(--ink-3); }
+.cap { font-size: var(--step--1); color: var(--ink-3); margin-top: -8px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: var(--step--1); font-weight: 600; }
+.stack-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 0.8rem; color: var(--ink-2); background: var(--tint); padding: 4px 10px; border-radius: 4px; }
+
+.story { font-family: var(--serif); font-size: 1.05rem; color: var(--ink-2); border-left: 2px solid var(--accent); padding-left: 16px; max-width: 36em; }
+.story b { font-family: var(--sans); font-size: var(--step--1); font-weight: 700; color: var(--ink); display: block; margin-bottom: 4px; }
+
+/* Roadmap */
+.road { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; counter-reset: s; border-top: 1px solid var(--rule); }
+.road li { counter-increment: s; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--rule); align-items: baseline; font-size: 0.95rem; }
+.road li::before { content: counter(s); font-weight: 700; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.road li.now::before { color: var(--accent); }
+.road li.now { font-weight: 600; }
+.road em { font-style: normal; font-size: 0.8rem; color: var(--ink-3); }
+.road li.now em { color: var(--accent); }
+
+/* Client work */
+.clients { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+.client { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.client .shot { aspect-ratio: 16 / 11; display: grid; place-items: center; }
+.client .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.client .shot.logo { background: #1b3665; }
+.client .shot.logo img { object-fit: contain; width: 82%; height: auto; }
+.client h3 { font-size: var(--step-1); font-weight: 700; letter-spacing: -0.01em; }
+.client p { color: var(--ink-2); font-size: 0.95rem; }
+
+/* Timeline (experience, education) */
+.rows { display: grid; border-top: 1px solid var(--rule); }
+.row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 24px; padding-block: 22px; border-bottom: 1px solid var(--rule); }
+.when { color: var(--ink-3); font-size: var(--step--1); font-variant-numeric: tabular-nums; padding-top: 3px; }
+.row h3 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
+.row .org { color: var(--ink-2); font-weight: 500; }
+.row p, .row ul { color: var(--ink-2); font-size: 0.95rem; margin-top: 8px; max-width: 40em; }
+.row ul { padding-left: 18px; display: grid; gap: 4px; }
+
+.marks { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 0 24px; margin-top: 14px; }
+.marks div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px dashed var(--rule); font-size: 0.92rem; color: var(--ink-2); }
+.marks b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* CAS */
+.cas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 32px; }
+.cas-item { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.cas-item h3 { font-size: var(--step-1); font-weight: 700; letter-spacing: -0.015em; }
+.cas-item p { color: var(--ink-2); font-size: 0.95rem; }
+.strands { display: flex; gap: 6px; flex-wrap: wrap; }
+.strand { font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 3px; background: var(--tint); color: var(--ink-2); }
+.photo-slot {
+  aspect-ratio: 3 / 2; border: 1px dashed var(--rule); border-radius: 6px;
+  display: grid; place-items: center; color: var(--ink-3); font-size: 0.8rem; background: var(--tint);
+}
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 32px; }
+.skills h3 { font-size: var(--step--1); font-weight: 700; color: var(--ink-3); margin-bottom: 10px; }
+.skills ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.skills li { font-size: 0.98rem; }
+
+/* Contact */
+.contact { padding-block: clamp(72px, 10vw, 128px); }
+.contact h2 { font-size: clamp(2.2rem, 6vw, 4.2rem); font-weight: 900; letter-spacing: -0.045em; line-height: 0.95; max-width: 12em; }
+.contact .lede { margin-top: 20px; }
+.email-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 28px; }
+.email { font-size: clamp(1.15rem, 3vw, 1.6rem); font-weight: 700; color: var(--ink); user-select: all; word-break: break-all; }
+footer { border-top: 1px solid var(--rule); padding-block: 28px; color: var(--ink-3); font-size: var(--step--1); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+@media (max-width: 860px) {
+  .block-grid { grid-template-columns: minmax(0, 1fr); }
+  .block-head h2, .block-head p { position: static; }
+  .clients, .cas { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 620px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .portrait { order: -1; width: 128px; }
+  .row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .bar nav { gap: 16px; }
+  .bar .mark { display: none; }
+  .fig + .fig { padding-left: 0; border-left: 0; }
+  .figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fig:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--rule); }
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="#top">André Wu</a>
+    <nav aria-label="Sections">
+      <a href="#projects">Projects</a>
+      <a href="#web">Web work</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#beyond">Beyond class</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <h1 class="name"><span>André</span><span class="last">Wu</span></h1>
+        </div>
+        <!-- TODO: replace with your headshot: <img src="assets/andre.jpg" alt="André Wu"> -->
+        <div class="portrait" aria-label="Photo of André Wu">Your headshot goes here</div>
+      </div>
+
+      <p class="lede">IT Management for Business student at <strong>Loughborough University</strong>. I build finance tools in Python, study how markets price information, and make websites for local businesses in Portugal.</p>
+
+      <p class="status"><span class="dot" aria-hidden="true"></span>Looking for a 2027–28 placement in finance or technology</p>
+
+      <div class="actions">
+        <a class="btn primary" href="mailto:andrewu706@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          Email me
+        </a>
+        <a class="btn" href="https://www.linkedin.com/in/andr%C3%A9-wu-bb10b11bb" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/Andrewwjl" target="_blank" rel="noopener">GitHub</a>
+        <!-- TODO: export your CV as assets/Andre_Wu_CV.pdf -->
+        <a class="btn" href="assets/Andre_Wu_CV.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+      </div>
+
+      <div class="langs" aria-label="Languages">
+        <div class="lang"><b>English</b><small>fluent</small></div>
+        <div class="lang"><b lang="pt">Português</b><small>fluent</small></div>
+        <div class="lang"><b lang="zh">中文</b><small>advanced</small></div>
+        <div class="lang"><b lang="es">Español</b><small>basic</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="block" id="projects">
+    <div class="wrap block-grid">
+      <div class="block-head">
+        <h2>Projects</h2>
+        <p>Finance and data work in Python. Code is on GitHub.</p>
+      </div>
+      <div class="stack">
+
+        <article class="project">
+          <div class="project-top">
+            <h3>How fast does news get into stock prices?</h3>
+            <span class="tag live">Complete · 2026</span>
+          </div>
+          <p class="desc">An information diffusion study of <strong>797 S&amp;P 500 stocks from 1997 to 2026</strong>. It measures how quickly prices absorb market-wide news (price delay, Hou &amp; Moskowitz 2005) and firm-specific news (event study with post-announcement drift), using real market data only, and publishes the results as an interactive dashboard.</p>
+          <div class="figs">
+            <div class="fig"><b>95%</b><span>of the 60-day move made within 3 days of good news (2016–26), up from 82% in 1997–2005</span></div>
+            <div class="fig"><b>20,001</b><span>news events across 12,207 stock-years</span></div>
+            <div class="fig"><b>1 day</b><span>for event-day trading volume to fall by half</span></div>
+          </div>
+          <figure class="shot" style="margin:0"><img src="assets/diffusion.jpg" alt="Dashboard headline: How fast does news get into the price? with four summary figures" loading="lazy" width="1600" height="800"></figure>
+          <p class="cap">The interactive results dashboard.</p>
+          <div class="stack-list"><span class="chip">Python</span><span class="chip">pandas</span><span class="chip">Regression analysis</span><span class="chip">Event studies</span><span class="chip">pytest</span></div>
+          <!-- TODO: add the GitHub link once the repo is public -->
+        </article>
+
+        <article class="project">
+          <div class="project-top">
+            <h3>Stock Valuation Tool</h3>
+            <span class="tag live">Working · 2026</span>
+          </div>
+          <p class="desc">A command-line tool that values a listed company two ways, a <strong>discounted cash flow</strong> (FCFF, WACC from CAPM, Gordon Growth terminal value) and <strong>comparable companies</strong> (P/E, EV/EBITDA, EV/Revenue, P/B), then gives an over, under or fairly valued verdict with a football-field chart. Data comes live from Yahoo Finance.</p>
+          <p class="story"><b>The bug that taught me the most</b>Valuing TSMC first returned "655% undervalued". The tool was reading statements reported in Taiwan dollars as US dollars, inflating cash flows about 30 times. I fixed it by converting statements to the trading currency and skipping P/B for foreign ADRs. It also showed me why DCF and comparables disagree for a company in a heavy investment phase.</p>
+          <figure class="shot" style="margin:0"><img src="assets/valuation-tsmc.jpg" alt="TSMC valuation football field and free cash flow projection charts" loading="lazy" width="1600" height="615"></figure>
+          <p class="cap">TSMC: comparables and DCF ranges against the market price, and the free cash flow projection.</p>
+          <div class="links"><a href="https://github.com/Andrewwjl/stock-valuation" target="_blank" rel="noopener">View code on GitHub</a></div>
+        </article>
+
+        <article class="project">
+          <div class="project-top">
+            <h3>Portfolio Performance Analysis</h3>
+            <span class="tag wip">In progress</span>
+          </div>
+          <p class="desc">I'm rebuilding my own investing history from scratch, around <strong>2,950 transactions across 294 tickers</strong> exported from Trading 212, to measure return, risk and diversification against the S&amp;P 500 and FTSE 100. Multi-currency holdings (EUR, USD, GBX), stock splits and frequent deposits make the accounting the hard part.</p>
+          <ol class="road" aria-label="Project roadmap">
+            <li class="now">Clean and classify every transaction <em>Now</em></li>
+            <li>Rebuild holdings day by day <em>Next</em></li>
+            <li>Daily portfolio value in EUR from market prices <em></em></li>
+            <li>Time-weighted return, volatility, Sharpe ratio, max drawdown, beta <em></em></li>
+            <li>Charts and findings, then rerun on my investment competition portfolios <em></em></li>
+          </ol>
+          <div class="links"><a href="https://github.com/Andrewwjl/Portfolio-analysis" target="_blank" rel="noopener">Follow it on GitHub</a></div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WEB WORK -->
+  <section class="block" id="web">
+    <div class="wrap block-grid">
+      <div class="block-head">
+        <h2>Web work</h2>
+        <p>Websites for small businesses in Arcos de Valdevez, Portugal.</p>
+      </div>
+      <div class="stack">
+        <p class="desc">I started building websites for local businesses that have little or no presence online. I take each one from brief to design system to build: researching the business, writing the copy in Portuguese, and designing for the customers they actually have.</p>
+        <div class="clients">
+          <article class="client">
+            <figure class="shot" style="margin:0"><img src="assets/romanza.jpg" alt="Romanza restaurant website homepage with azulejo tile pattern" loading="lazy" width="640" height="447"></figure>
+            <div class="project-top"><h3>Romanza</h3><span class="tag wip">In progress</span></div>
+            <p>Italian restaurant with 4.6★ from over 1,600 Google reviews and no website. The new site puts the full menu online and turns phone-only delivery orders into a simple online flow. The design pairs Italian trattoria type with the Portuguese tiles from its logo.</p>
+          </article>
+          <article class="client">
+            <figure class="shot logo" style="margin:0"><img src="assets/artur-caneja.jpg" alt="Artur Caneja Mediação Imobiliária logo" loading="lazy" width="614" height="172"></figure>
+            <div class="project-top"><h3>Artur Caneja Imobiliária</h3><span class="tag wip">In design</span></div>
+            <p>Estate agency with 40 years in the Alto Minho and one of the oldest licences in Portugal. The site presents 100+ properties, from granite houses to rural estates, to local sellers and to buyers in Porto, Lisbon and abroad.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="block" id="experience">
+    <div class="wrap block-grid">
+      <div class="block-head">
+        <h2>Experience</h2>
+      </div>
+      <div class="rows">
+        <div class="row">
+          <div class="when">2026 – now</div>
+          <div>
+            <h3>Freelance web developer</h3>
+            <p>Designing and building websites for local businesses in Portugal: client research, copy, design systems, build and hosting.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="when">2022 – now</div>
+          <div>
+            <h3>Fanny Boutique <span class="org">· family shop, Arcos de Valdevez</span></h3>
+            <ul>
+              <li>Work every Christmas, Easter and summer holiday in the family shop.</li>
+              <li>Handle €1,000+ in cash a day and reconcile the till.</li>
+              <li>Analyse sales patterns across 50+ product categories and run the shop's Facebook page and seasonal promotions.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="when">Oct – Nov 2025</div>
+          <div>
+            <h3>UMushroom Investment Challenge</h3>
+            <p>Managed a virtual £100k equity portfolio in a UK university competition. A sharp US sell-off hit it hard. It was a real lesson in diversification and risk management.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="when">Mar 2024 – May 2025</div>
+          <div>
+            <h3>Co-founder and Python instructor <span class="org">· The Coding Society</span></h3>
+            <p>Started the school's coding club at Oporto British School and taught other students Python from the basics.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="when">Nov 2023 – May 2025</div>
+          <div>
+            <h3>Technology Prefect <span class="org">· Oporto British School</span></h3>
+            <p>Tech support for 100+ students and teachers. Gave an internet-safety talk to 200+ pupils.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="block" id="education">
+    <div class="wrap block-grid">
+      <div class="block-head">
+        <h2>Education</h2>
+      </div>
+      <div class="rows">
+        <div class="row">
+          <div class="when">2025 – 2029</div>
+          <div>
+            <h3>BSc IT Management for Business <span class="org">· Loughborough University</span></h3>
+            <p>Placement route, accredited by TechSkills (Tech Industry Gold). First-year average <b>66.3%</b> (2:1). Strongest in finance.</p>
+            <div class="marks">
+              <div>Principles of Finance <b>82</b></div>
+              <div>Quantitative Business Skills <b>76</b></div>
+              <div>Introduction to Accounting <b>74</b></div>
+              <div>Management of HR <b>74</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="when">2023 – 2025</div>
+          <div>
+            <h3>IB Diploma (Bilingual) <span class="org">· Oporto British School, Porto</span></h3>
+            <p>Higher Level: Maths Analysis &amp; Approaches, Digital Society, Portuguese A. Standard Level: Computer Science, English, Geography.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEYOND THE CLASSROOM (CAS) -->
+  <section class="block" id="beyond">
+    <div class="wrap block-grid">
+      <div class="block-head">
+        <h2>Beyond the classroom</h2>
+        <p>Creativity, Activity and Service from my IB years, 2023–2025.</p>
+      </div>
+      <div class="cas">
+        <article class="cas-item">
+          <!-- TODO: optional photo <img src="assets/cas-bake-sale.jpg" alt=""> -->
+          <div class="strands"><span class="strand">Service</span><span class="strand">Activity</span></div>
+          <h3>€428 for the Morocco earthquake appeal</h3>
+          <p>Helped run a school bake sale in September 2023, sent through Porto Solidário. Afterwards I pushed for a plan for unsold food so nothing went to waste, and asked why we weren't also helping after the Libya floods.</p>
+        </article>
+        <article class="cas-item">
+          <div class="strands"><span class="strand">Service</span></div>
+          <h3>Banco Alimentar food collection</h3>
+          <p>Handed out bags and collected food donations for Portugal's food bank, which supplies more than 2,300 charities. Talking to strangers was hard at first. I came away much more confident doing it.</p>
+        </article>
+        <article class="cas-item">
+          <div class="strands"><span class="strand">Activity</span><span class="strand">Service</span></div>
+          <h3>Running school events</h3>
+          <p>My year group organised the school Halloween party. A friend and I ran "Sponge the Teacher", one of the busiest stalls of the night. I also decorated the school, helped with the clean-up, and ran the art activity and bingo at the Christmas tree lighting ceremony.</p>
+        </article>
+        <article class="cas-item">
+          <div class="strands"><span class="strand">Service</span><span class="strand">Creativity</span></div>
+          <h3>Teaching and tutoring</h3>
+          <p>Co-founded the Coding Society, tutored Portuguese and IGCSE Maths, and read to primary school students.</p>
+        </article>
+        <article class="cas-item">
+          <div class="strands"><span class="strand">Creativity</span></div>
+          <h3>Teaching myself to code</h3>
+          <p>Learned Python, Java, HTML, CSS and JavaScript on my own time, the start of everything in the projects above.</p>
+        </article>
+        <article class="cas-item">
+          <div class="strands"><span class="strand">Activity</span></div>
+          <h3>Model UN, travel and sport</h3>
+          <p>Typist at the OBSMUN 2024 conference and its mock session. Helped at a donkey farm and visited the traditional pigeon houses on a school trip to Miranda do Douro. Table tennis club and the gym.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="block" id="skills">
+    <div class="wrap block-grid">
+      <div class="block-head">
+        <h2>Skills</h2>
+      </div>
+      <div class="skills">
+        <div>
+          <h3>Code and data</h3>
+          <ul><li>Python (pandas, matplotlib, yfinance)</li><li>SQL</li><li>Java</li><li>HTML, CSS, JavaScript</li><li>Git and GitHub</li><li>LaTeX</li></ul>
+        </div>
+        <div>
+          <h3>Finance</h3>
+          <ul><li>DCF and comparables valuation</li><li>Portfolio return and risk metrics</li><li>Event studies</li><li>Excel</li></ul>
+        </div>
+        <div>
+          <h3>Awards and clubs</h3>
+          <ul><li>Student of the Year, 2024</li><li>SuperTmatik mental calculation, 34th of 7,630 (2020)</li><li>Loughborough Table Tennis Development Squad</li><li>Finance &amp; Accounting, Debate and Oriental Societies</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2>Let's talk.</h2>
+      <p class="lede">Placements, internships, or a website for your business.</p>
+      <div class="email-row">
+        <span class="email" id="email">andrewu706@gmail.com</span>
+        <button class="btn" type="button" id="copy">Copy email</button>
+      </div>
+      <div class="actions">
+        <a class="btn" href="https://www.linkedin.com/in/andr%C3%A9-wu-bb10b11bb" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/Andrewwjl" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> André Wu</span>
+    <span>Loughborough, UK and Porto, Portugal</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const copyBtn = document.getElementById('copy');
+  copyBtn.addEventListener('click', () => {
+    const text = document.getElementById('email').textContent.trim();
+    const done = () => { copyBtn.textContent = 'Copied'; setTimeout(() => copyBtn.textContent = 'Copy email', 1800); };
+    const fallback = () => {
+      const r = document.createRange(); r.selectNodeContents(document.getElementById('email'));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      copyBtn.textContent = 'Press ⌘C to copy';
+    };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  });
+</script>
+</body>
+</html>
